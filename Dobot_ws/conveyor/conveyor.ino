@@ -39,3 +39,4 @@ void loop() {
 
   stepperx.runSpeed();             // 항상 모터 제어 실행
 }
+
