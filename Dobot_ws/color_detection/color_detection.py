@@ -28,7 +28,7 @@ def capture_image():
         elif hue_value < 90:
             color = "GREEN"    
         elif hue_value < 120:
-            color = "BLUE!"
+            color = "BLUE"
 
         print(pixel_center)
         pixel_center_bgr = frame[cy, cx]
