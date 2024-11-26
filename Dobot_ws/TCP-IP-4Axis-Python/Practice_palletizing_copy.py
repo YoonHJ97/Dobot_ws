@@ -153,7 +153,7 @@ if __name__ == '__main__':
 
     ActivateVacuumGripper(dashboard, activate=False)
 
-    rows = 2
+    rows = 3
     cols = 2
     layers = 2
     offset = [-35, -35, 35]  # 간격 (x, y, z)
