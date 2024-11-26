@@ -294,4 +294,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("프로그램 종료")
     finally:
-        ser.close()  # 시리얼 포트 닫기
+        ser.close()  
