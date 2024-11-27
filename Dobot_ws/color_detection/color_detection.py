@@ -45,7 +45,7 @@ def capture_image():
 
         # 키 입력 처리
         key = cv2.waitKey(1) & 0xFF
-        if key == ord('q'):  # 's'를 누르면 이미지 저장
+        if key == ord('q'):  # 'q'를 누르면 종료
             print("종료합니다.")
             break
 
