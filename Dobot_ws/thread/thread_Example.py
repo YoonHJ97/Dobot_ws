@@ -20,3 +20,4 @@ thread1.join()
 thread2.join()
 
 print("모든 작업 완료")
+
