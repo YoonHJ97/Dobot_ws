@@ -197,6 +197,8 @@ if __name__ == '__main__':
     feed_thread1.start()
 
     point_pick = [273.36, -65.42, -57.98, 0]
+    point_pick = [273.36, -65.42, 0, 0]
+
     point_pick_offset = [273.36, -65.42, 0, 0]
     point_red = [382.89, -40.66, -142.84, 0]
     point_red_offset = [382.89, -40.66, 0, 0]
