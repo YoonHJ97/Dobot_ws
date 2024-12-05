@@ -4,7 +4,6 @@ from time import sleep
 import numpy as np
 import re
 import serial
-import time
 import cv2
 
 # Global variables (current coordinates)
@@ -151,6 +150,7 @@ def capture_image():
             current_color = "GREEN"    
         elif hue_value < 120:
             current_color = "BLUE"
+
         pixel_center_bgr = frame[cy, cx]
         b, g, r = int(pixel_center_bgr[0]), int(pixel_center_bgr[1]), int(pixel_center_bgr[2])
         cv2.putText(frame, current_color, (10,50), 0, 1, (b, g, r), 2)
@@ -175,7 +175,7 @@ def capture_image():
 
 if __name__ == '__main__':
     ser = serial.Serial('COM4', 9600, timeout=1)  # COM 포트는 아두이노에 맞게 변경
-    time.sleep(2)  # 아두이노 초기화 시간 대기
+    sleep(2)  # 아두이노 초기화 시간 대기
     pick = False
     dashboard, move, feed = ConnectRobot()
     print("Starting enable...")
@@ -197,7 +197,7 @@ if __name__ == '__main__':
     feed_thread1.start()
 
     point_pick = [273.36, -65.42, -57.98, 0]
-    point_pick = [273.36, -65.42, 0, 0]
+    point_pick_offset = [273.36, -65.42, 0, 0]
 
     point_pick_offset = [273.36, -65.42, 0, 0]
     point_red = [382.89, -40.66, -142.84, 0]
