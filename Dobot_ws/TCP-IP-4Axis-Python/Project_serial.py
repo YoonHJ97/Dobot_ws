@@ -209,6 +209,7 @@ if __name__ == '__main__':
     point_blue = [369.24, 118.45, -142.35, 0]
     point_blue_offset = [369.24, 118.45, 0, 0]
 
+
     ActivateVacuumGripper(dashboard, activate=False)
     RunPoint(move, point_pick_offset)
     WaitArrive(point_pick_offset)
