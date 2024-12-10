@@ -196,18 +196,17 @@ if __name__ == '__main__':
     feed_thread1.setDaemon(True)
     feed_thread1.start()
 
-    point_pick = [273.36, -65.42, -57.98, 0]
-    point_pick_offset = [273.36, -65.42, 0, 0]
+    point_pick = [212.05, -13.16, -56.33, 0]
+    point_pick_offset = [212.05, -13.16, 0, 0]
 
-    point_pick_offset = [273.36, -65.42, 0, 0]
-    point_red = [382.89, -40.66, -142.84, 0]
-    point_red_offset = [382.89, -40.66, 0, 0]
-    point_yellow = [379.64, 13.60, -142.34, 0]
-    point_yellow_offset = [379.64, 13.60, 0, 0]
-    point_green = [371.82, 72.20, -142.43, 0]
-    point_green_offset = [371.82, 72.20, 0, 0]
-    point_blue = [369.24, 118.45, -142.35, 0]
-    point_blue_offset = [369.24, 118.45, 0, 0]
+    point_red = [363.63, 5.70, -143.83, 0]
+    point_red_offset = [363.63, 5.70, 0, 0]
+    point_yellow = [363.46, 45.52, -143.33, 0]
+    point_yellow_offset = [363.46, 45.52, 0, 0]
+    point_green = [364.79, 89.08, -143.33, 0]
+    point_green_offset = [364.79, 89.08, 0, 0]
+    point_blue = [369.24, 128.01, -143.33, 0]
+    point_blue_offset = [369.24, 128.01, 0, 0]
 
 
     ActivateVacuumGripper(dashboard, activate=False)
@@ -298,3 +297,7 @@ if __name__ == '__main__':
         print("프로그램 종료")
     finally:
         ser.close()  
+
+
+
+
