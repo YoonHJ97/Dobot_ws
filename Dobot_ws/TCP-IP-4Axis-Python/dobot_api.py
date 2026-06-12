@@ -89,7 +89,7 @@ MyType = np.dtype([('len', np.int16,),
                    ])
 
 
-# 读取控制器和伺服告警文件
+# Read controller and servo alarm files
 def alarmAlarmJsonFile():
     currrntDirectory = os.path.dirname(__file__)
     jsonContrellorPath = os.path.join(currrntDirectory, alarmControllerFile)
@@ -577,7 +577,7 @@ class DobotApiMove(DobotApi):
         return self.sendRecvMsg(string)
 
     def Jump(self):
-        print("待定")
+        print("To be determined")
 
     def RelMovJ(self, x, y, z, r, *dynParams):
         """

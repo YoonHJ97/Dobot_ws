@@ -299,7 +299,7 @@ class RobotUI(object):
 
     def connect_port(self):
         if self.global_state["connect"]:
-            print("断开成功")
+            print("Disconnect success")
             self.client_dash.close()
             self.client_feed.close()
             self.client_move.close()
@@ -312,7 +312,7 @@ class RobotUI(object):
             self.button_connect["text"] = "Connect"
         else:
             try:
-                print("连接成功")
+                print("Connect success")
                 self.client_dash = DobotApiDashboard(
                     self.entry_ip.get(), int(self.entry_dash.get()), self.text_log)
                 self.client_move = DobotApiMove(
@@ -370,10 +370,10 @@ class RobotUI(object):
 
     def confirm_do(self):
         if self.combo_status.get() == "On":
-            print("高电平")
+            print("High level (DO ON)")
             self.client_dash.DO(int(self.entry_index.get()), 1)
         else:
-            print("低电平")
+            print("Low level (DO OFF)")
             self.client_dash.DO(int(self.entry_index.get()), 0)
 
     def set_feed(self, text_list, x1, x2, x3, x4):
