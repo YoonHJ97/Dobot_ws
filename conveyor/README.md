@@ -26,6 +26,20 @@
 - 핀 9 센서 값을 0.2초마다 시리얼로 출력 (`sensor = 1 -> DETECTED` 형식)
 - 센서 동작 확인 / 감지 거리(감도) 조정용
 
+## 라이브러리 설치 (AccelStepper)
+
+`conveyor.ino`는 `AccelStepper` 라이브러리가 필요합니다. (센서 테스트 스케치는 불필요)
+
+**방법 1 — 라이브러리 매니저 (권장)**
+1. Arduino IDE → `스케치` → `라이브러리 포함` → `라이브러리 관리...`
+2. `AccelStepper` 검색 후 설치
+
+**방법 2 — GitHub ZIP 직접 추가**
+1. https://github.com/waspinator/AccelStepper 접속
+2. 초록색 `Code` 버튼 → `Download ZIP`
+3. Arduino IDE → `스케치` → `라이브러리 포함` → `.ZIP 라이브러리 추가...`
+4. 다운로드한 ZIP 파일 선택
+
 ## 사용법
 1. Arduino IDE에서 `.ino` 파일 열기
 2. 보드 업로드 후 시리얼 모니터 열기 (보드레이트 **9600**)
