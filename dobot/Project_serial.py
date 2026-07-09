@@ -94,8 +94,9 @@ def ClearRobotError(dashboard: DobotApiDashboard):
                         dashboard.Continue()
 
       else:  
-         if int(enableStatus_robot[0]) == 1 and int(algorithm_queue[0]) == 0:
-            dashboard.Continue()
+         if enableStatus_robot is not None and algorithm_queue is not None:
+            if int(enableStatus_robot[0]) == 1 and int(algorithm_queue[0]) == 0:
+               dashboard.Continue()
       globalLockValue.release()
       sleep(5)
 

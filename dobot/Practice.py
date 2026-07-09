@@ -103,9 +103,10 @@ def ClearRobotError(dashboard: DobotApiDashboard):
                         sleep(0.01)
                         dashboard.Continue()
 
-      else:  
-         if int(enableStatus_robot[0]) == 1 and int(algorithm_queue[0]) == 0:
-            dashboard.Continue()
+      else:
+         if enableStatus_robot is not None and algorithm_queue is not None:
+            if int(enableStatus_robot[0]) == 1 and int(algorithm_queue[0]) == 0:
+               dashboard.Continue()
       globalLockValue.release()
       sleep(5)
 
@@ -126,8 +127,8 @@ if __name__ == '__main__':
     feed_thread1.start()
 
     print("Executing loop...")
-    point_a = [328.93, -17.07, 0.67, -4.77]
-    point_b = [328.93, -17.07, 80.67, -4.77]
+    point_a = [244.95, -56.06, -56.06, -4.77]
+    point_b = [239.23, 34.87, 35.47, -4.77]
     
     while True:
         
