@@ -141,10 +141,10 @@ def main():
     t_error.start()
 
     # 3) 주요 포인트 정의  (배선/작업대에 맞게 좌표 수정)
-    pick_up    = [369.07, -174.69, -62.96, 0]   # 집을 위치 (내려간 자세)
-    pick_hover = [369.07, -174.69,   0.00, 0]   # 집을 위치 위 (안전 높이)
-    place_hover = [365.54,   67.00,   0.00, 0]  # 놓을 위치 위
-    place_down  = [365.54,   67.00, -141.03, 0] # 놓을 위치 (내려간 자세)
+    pick_up    = [244.95, -56.06, -56.06, 0]   # 집을 위치 (내려간 자세)
+    pick_hover = [244.95, -56.06,   0.00, 0]   # 집을 위치 위 (안전 높이)
+    place_hover = [239.23, 34.87,   0.00, 0]  # 놓을 위치 위
+    place_down  = [239.23, 34.87, -56.06, 0] # 놓을 위치 (내려간 자세)
 
     # 4) 초기 전자석 OFF 후 안전 높이로 이동
     ActivateMagnet(dashboard, activate=False)
@@ -173,6 +173,9 @@ def main():
         RunPoint(move, place_hover)
         WaitArrive(place_hover)
 
+        ActivateMagnet(dashboard, activate=False)
+        RunPoint(move, pick_hover)
+        WaitArrive(pick_hover)
 
 if __name__ == '__main__':
     main()

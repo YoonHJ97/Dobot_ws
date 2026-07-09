@@ -148,33 +148,41 @@ def main():
     t_error.start()
 
     # 3) 주요 포인트 정의
-    point_a = [369.07, -174.69, -62.96, 0]
-    point_b = [369.07, -174.69,   0.00, 0]
-    point_c = [365.54,   67.00,   0.00, 0]
-    point_d = [365.54,   67.00, -141.03, 0]
+    pick_up    = [244.95, -56.06, -56.06, 0]   # 집을 위치 (내려간 자세)
+    pick_hover = [244.95, -56.06,   0.00, 0]   # 집을 위치 위 (안전 높이)
+    place_hover = [239.23, 34.87,   0.00, 0]  # 놓을 위치 위
+    place_down  = [239.23, 34.87, -56.06, 0] # 놓을 위치 (내려간 자세)
 
     # 4) 초기 그리퍼 해제 및 포인트 이동
     ActivateVacuumGripper(dashboard, activate=False)
-    RunPoint(move, point_b)
-    WaitArrive(point_b)
+    RunPoint(move, pick_hover)
+    WaitArrive(pick_hover)
 
     # 5) 무한 루프에서 픽 앤 플레이스 동작 반복
     while True:
-        RunPoint(move, point_a)
-        WaitArrive(point_a)
-
+        # 집을 위치로 하강 -> 자화(부착) -> 들어올림
+        RunPoint(move, pick_up)
+        WaitArrive(pick_up)
         ActivateVacuumGripper(dashboard, activate=True)
-        RunPoint(move, point_b)
-        WaitArrive(point_b)
+        sleep(0.3)  # 부착 안정화 대기
+        RunPoint(move, pick_hover)
+        WaitArrive(pick_hover)
 
-        RunPoint(move, point_c)
-        WaitArrive(point_c)
-        RunPoint(move, point_d)
-        WaitArrive(point_d)
+        # 놓을 위치 위로 이동 -> 하강 -> 소자(분리)
+        RunPoint(move, place_hover)
+        WaitArrive(place_hover)
+        RunPoint(move, place_down)
+        WaitArrive(place_down)
+        ActivateVacuumGripper(dashboard, activate=False)
+        sleep(0.3)  # 분리 안정화 대기
+
+        # 안전 높이로 복귀
+        RunPoint(move, place_hover)
+        WaitArrive(place_hover)
 
         ActivateVacuumGripper(dashboard, activate=False)
-        RunPoint(move, point_c)
-        WaitArrive(point_c)
+        RunPoint(move, pick_hover)
+        WaitArrive(pick_hover)
 
 if __name__ == '__main__':
     main()
