@@ -115,10 +115,16 @@ def WaitArrive(point_list):
         sleep(0.001)
 
 def ActivateVacuumGripper(dashboard: DobotApiDashboard, activate: bool):
-
-    index = 1  # Assuming DO_01 corresponds to index 1
-    status = 1 if activate else 0
-    dashboard.DO(index, status)  # Activate or deactivate DO_01 based on status
+    # activate=True  -> pick : 흡착(D0) ON, 배출(D1) OFF
+    # activate=False -> place: 흡착(D0) OFF, 배출(D1) 잠깐 ON 후 OFF
+    if activate:
+        dashboard.DO(1, 1)   # 흡착 ON
+        dashboard.DO(2, 0)   # 배출 OFF
+    else:
+        dashboard.DO(1, 0)   # 흡착 OFF
+        dashboard.DO(2, 1)   # 배출 ON (확실하게 내려놓기)
+        sleep(0.3)           # 배출 유지 시간
+        dashboard.DO(2, 0)   # 배출 OFF (계속 켜두지 않음)
     print(f"Vacuum Gripper {'activated' if activate else 'deactivated'}")
 
 def capture_image():
