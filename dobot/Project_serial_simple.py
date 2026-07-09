@@ -5,8 +5,9 @@ import numpy as np
 import re
 import serial
 
-# 컨베이어(아두이노 IR 센서)에서 "DETECTED" 시리얼 신호가 오면
+# 컨베이어(conveyor_project)에서 "DETECTED" 시리얼 신호가 오면
 # 색 구분 없이 정해진 위치로 pick and place 하는 단순 버전. (진공 그리퍼)
+# place 를 마치면 "RESUME" 를 전송해 컨베이어를 다시 움직인다.
 
 # Global variables (current coordinates)
 current_actual = None
@@ -116,14 +117,20 @@ def WaitArrive(point_list):
         sleep(0.001)
 
 def ActivateVacuumGripper(dashboard: DobotApiDashboard, activate: bool):
-
-    index = 1  # Assuming DO_01 corresponds to index 1
-    status = 1 if activate else 0
-    dashboard.DO(index, status)  # Activate or deactivate DO_01 based on status
+    # activate=True  -> pick : 흡착(D0) ON, 배출(D1) OFF
+    # activate=False -> place: 흡착(D0) OFF, 배출(D1) 잠깐 ON 후 OFF
+    if activate:
+        dashboard.DO(1, 1)   # 흡착 ON
+        dashboard.DO(2, 0)   # 배출 OFF
+    else:
+        dashboard.DO(1, 0)   # 흡착 OFF
+        dashboard.DO(2, 1)   # 배출 ON (확실하게 내려놓기)
+        sleep(0.3)           # 배출 유지 시간
+        dashboard.DO(2, 0)   # 배출 OFF (계속 켜두지 않음)
     print(f"Vacuum Gripper {'activated' if activate else 'deactivated'}")
 
 if __name__ == '__main__':
-    ser = serial.Serial('COM4', 9600, timeout=1)  # COM 포트는 아두이노에 맞게 변경
+    ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)  # COM 포트는 아두이노에 맞게 변경
     sleep(2)  # 아두이노 초기화 시간 대기
     dashboard, move, feed = ConnectRobot()
     print("Starting enable...")
@@ -141,11 +148,12 @@ if __name__ == '__main__':
     feed_thread1.start()
 
     # 집을 위치 / 놓을 위치 (작업대에 맞게 좌표 수정)
-    point_pick = [212.05, -13.16, -56.33, 0]
-    point_pick_offset = [212.05, -13.16, 0, 0]
-    point_place = [363.63, 5.70, -143.83, 0]
-    point_place_offset = [363.63, 5.70, 0, 0]
+    point_pick = [230.90, -146.74, -56.33, 0]
+    point_pick_offset = [230.90, -146.74, 0, 0]
+    point_place = [246.17, 144.64, -56.33, 0]
+    point_place_offset = [246.17, 144.64, 0, 0]
 
+    # 초기 그리퍼 해제
     ActivateVacuumGripper(dashboard, activate=False)
     RunPoint(move, point_pick_offset)
     WaitArrive(point_pick_offset)
@@ -167,7 +175,7 @@ if __name__ == '__main__':
                     RunPoint(move, point_pick)
                     WaitArrive(point_pick)
 
-                    ActivateVacuumGripper(dashboard, activate=True)
+                    ActivateVacuumGripper(dashboard, activate=True)   # pick: 흡착 ON
 
                     RunPoint(move, point_pick_offset)
                     WaitArrive(point_pick_offset)
@@ -179,7 +187,7 @@ if __name__ == '__main__':
                     RunPoint(move, point_place)
                     WaitArrive(point_place)
 
-                    ActivateVacuumGripper(dashboard, activate=False)
+                    ActivateVacuumGripper(dashboard, activate=False)  # place: 흡착 OFF + 배출 잠깐 ON
 
                     RunPoint(move, point_place_offset)
                     WaitArrive(point_place_offset)
@@ -187,6 +195,10 @@ if __name__ == '__main__':
                     # 다음 물체 대기 위치로 복귀
                     RunPoint(move, point_pick_offset)
                     WaitArrive(point_pick_offset)
+
+                    # 컨베이어 재개 신호 전송
+                    ser.write(b"RESUME\n")
+                    print("Sent Signal: RESUME")
 
     except KeyboardInterrupt:
         print("프로그램 종료")
